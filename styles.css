@@ -16,7 +16,7 @@ body {
   justify-content: center;
 }
 
-/* CONTAINER */
+/* APP */
 .app {
   width: 100%;
   max-width: 720px;
@@ -42,7 +42,7 @@ body {
   box-shadow: 0 0 60px rgba(0,255,150,0.08);
 }
 
-/* HEADINGS */
+/* TEXT */
 h1 {
   font-size: 34px;
   font-weight: 700;
@@ -50,7 +50,7 @@ h1 {
 }
 
 p {
-  font-size: 16px;
+  font-size: 15px;
   opacity: 0.6;
   margin-bottom: 25px;
 }
@@ -66,18 +66,21 @@ input {
   font-size: 18px;
   margin-bottom: 25px;
   outline: none;
-  transition: 0.2s;
+  transition: 0.25s;
 }
 
 input:focus {
   border-color: #00ff9c;
-  box-shadow: 0 0 15px rgba(0,255,156,0.2);
+  box-shadow: 0 0 15px rgba(0,255,156,0.25);
 }
 
-/* BUTTON BASE */
+/* =========================
+   BUTTON SYSTEM (FIXED)
+========================= */
+
+/* BASE */
 button {
-  width: 100%;
-  padding: 16px;
+  padding: 16px 18px;
   border-radius: 14px;
   border: none;
   font-size: 16px;
@@ -86,20 +89,29 @@ button {
   transition: all 0.2s ease;
 }
 
-/* PRIMARY BUTTON */
+/* PRIMARY CTA */
 #toStep2,
 #toStep3 {
+  width: 100%;
+  margin-top: 10px;
   background: linear-gradient(90deg, #00ff9c, #ff00e5);
   color: #000;
+  font-weight: 700;
+  letter-spacing: 0.3px;
 }
 
 #toStep2:hover,
 #toStep3:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 25px rgba(255,0,200,0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255,0,200,0.25);
 }
 
-/* NAV */
+#toStep2:active,
+#toStep3:active {
+  transform: scale(0.98);
+}
+
+/* NAV BUTTONS */
 .nav {
   display: flex;
   gap: 12px;
@@ -110,28 +122,50 @@ button {
   flex: 1;
   background: rgba(255,255,255,0.05);
   color: #fff;
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
-/* SERVICE GRID */
+.nav button:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* RESET BUTTON */
+#reset {
+  width: 100%;
+  margin-top: 10px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+}
+
+#reset:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+/* =========================
+   SERVICE BUTTONS (UPGRADED)
+========================= */
+
 .service-grid {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 14px;
   margin-bottom: 25px;
 }
 
-/* SERVICE BUTTON */
 .service-btn {
-  padding: 18px;
-  border-radius: 14px;
+  padding: 20px;
+  border-radius: 16px;
   background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.08);
   text-align: left;
-  transition: 0.2s;
+  transition: all 0.25s ease;
+  position: relative;
 }
 
 .service-btn h3 {
   font-size: 18px;
+  margin-bottom: 4px;
 }
 
 .service-btn p {
@@ -140,20 +174,26 @@ button {
 }
 
 .service-btn:hover {
+  transform: translateY(-2px);
   border-color: #00ff9c;
+  box-shadow: 0 10px 30px rgba(0,255,156,0.15);
 }
 
+/* SELECTED STATE */
 .service-btn.selected {
-  background: linear-gradient(90deg, rgba(0,255,156,0.15), rgba(255,0,229,0.15));
+  background: linear-gradient(90deg, rgba(0,255,156,0.2), rgba(255,0,229,0.2));
   border-color: #00ff9c;
-  box-shadow: 0 0 20px rgba(0,255,156,0.15);
+  box-shadow: 0 0 25px rgba(0,255,156,0.25);
 }
 
-/* PRICING */
+/* =========================
+   PRICING (CLEANER)
+========================= */
+
 .pricing-box {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
   margin: 30px 0;
 }
 
@@ -162,7 +202,7 @@ button {
   justify-content: space-between;
   align-items: center;
   background: rgba(255,255,255,0.04);
-  padding: 16px;
+  padding: 18px;
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.08);
 }
@@ -173,47 +213,58 @@ button {
 }
 
 .pricing-box h2 {
-  font-size: 22px;
+  font-size: 24px;
+  font-weight: 700;
 }
 
-/* EXTRAS GRID */
+/* =========================
+   EXTRAS (BIG FIX)
+========================= */
+
 .extras-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 12px;
   margin-top: 15px;
 }
 
-/* EXTRA ITEM */
 .extras-grid label {
   background: rgba(255,255,255,0.04);
-  padding: 12px;
-  border-radius: 10px;
+  padding: 14px;
+  border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.08);
   font-size: 13px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
-  transition: 0.2s;
+  gap: 10px;
+  transition: all 0.2s ease;
 }
 
 .extras-grid label:hover {
   border-color: #ff00e5;
+  transform: translateY(-1px);
 }
 
+/* CHECKBOX FIX */
 .extras-grid input {
   accent-color: #00ff9c;
+  transform: scale(1.2);
 }
 
-/* RESET BUTTON */
-#reset {
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.2);
+/* SELECTED EXTRA (VISUAL FEEDBACK) */
+.extras-grid input:checked + span,
+.extras-grid label:has(input:checked) {
+  background: rgba(0,255,156,0.15);
+  border-color: #00ff9c;
 }
 
-/* RESPONSIVE */
+/* =========================
+   MOBILE
+========================= */
+
 @media (max-width: 600px) {
+
   .card {
     padding: 25px;
   }
