@@ -1,123 +1,88 @@
 let sqft = 0;
-let selectedService = null;
-let selectedExtras = [];
+let service = null;
+let extras = [];
 
-/* ================= NAVIGATION ================= */
-
-function showStep(step) {
+/* STEP NAV */
+function showStep(n) {
   document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
-  document.getElementById("step" + step).classList.add("active");
+  document.getElementById("step" + n).classList.add("active");
 }
 
-/* ================= STEP 1 ================= */
+/* STEP 1 */
+document.getElementById("toStep2").onclick = () => {
+  const val = document.getElementById("sqft").value;
+  if (!val) return alert("Enter sqft");
 
-document.getElementById("toStep2").addEventListener("click", () => {
-  const input = document.getElementById("sqft").value;
-
-  if (!input || input <= 0) {
-    alert("Enter valid square footage");
-    return;
-  }
-
-  sqft = parseInt(input);
+  sqft = parseInt(val);
   showStep(2);
-});
+};
 
-/* ================= SERVICE SELECTION ================= */
-
+/* SELECT SERVICE */
 document.querySelectorAll(".service-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
+  btn.onclick = () => {
     document.querySelectorAll(".service-btn").forEach(b => b.classList.remove("selected"));
     btn.classList.add("selected");
-
-    selectedService = btn.dataset.service;
-  });
+    service = btn.dataset.service;
+  };
 });
 
-/* ================= STEP 2 FIX ================= */
+/* STEP 2 → 3 */
+document.getElementById("toStep3").onclick = () => {
+  if (!service) return alert("Select a service");
 
-document.getElementById("toStep3").addEventListener("click", () => {
-  if (!selectedService) {
-    alert("Select a service");
-    return;
-  }
-
-  calculatePrices();
+  calculate();
   showStep(3);
-});
+};
 
-/* ================= PRICING ================= */
-
-function calculatePrices() {
+/* PRICING */
+function calculate() {
   let rate = 0;
 
-  if (selectedService === "standard") rate = 0.10;
-  if (selectedService === "deep") rate = 0.20;
-  if (selectedService === "move") rate = 0.22;
+  if (service === "standard") rate = 0.10;
+  if (service === "deep") rate = 0.20;
+  if (service === "move") rate = 0.22;
 
-  const base = sqft * rate;
-  const mid = base * 1.1;
-  const high = base * 1.2;
+  let base = sqft * rate;
 
   document.getElementById("price-low").innerText = "$" + base.toFixed(2);
-  document.getElementById("price-mid").innerText = "$" + mid.toFixed(2);
-  document.getElementById("price-high").innerText = "$" + high.toFixed(2);
+  document.getElementById("price-mid").innerText = "$" + (base * 1.1).toFixed(2);
+  document.getElementById("price-high").innerText = "$" + (base * 1.2).toFixed(2);
 
   updateTotal(base);
 }
 
-/* ================= EXTRAS ================= */
-
+/* EXTRAS */
 document.querySelectorAll(".extra").forEach(el => {
-  el.addEventListener("click", () => {
-    const price = parseFloat(el.dataset.price);
+  el.onclick = () => {
+    let price = parseFloat(el.dataset.price);
 
     if (el.classList.contains("active")) {
       el.classList.remove("active");
-      selectedExtras = selectedExtras.filter(p => p !== price);
+      extras = extras.filter(p => p !== price);
     } else {
       el.classList.add("active");
-      selectedExtras.push(price);
+      extras.push(price);
     }
 
     updateTotal();
-  });
+  };
 });
 
-/* ================= TOTAL ================= */
-
+/* TOTAL */
 function updateTotal(baseOverride = null) {
-  let rate = 0;
-
-  if (selectedService === "standard") rate = 0.10;
-  if (selectedService === "deep") rate = 0.20;
-  if (selectedService === "move") rate = 0.22;
+  let rate = service === "standard" ? 0.10 :
+             service === "deep" ? 0.20 : 0.22;
 
   let base = baseOverride !== null ? baseOverride : sqft * rate;
 
-  let extrasTotal = selectedExtras.reduce((a, b) => a + b, 0);
-
-  const total = base + extrasTotal;
+  let total = base + extras.reduce((a,b)=>a+b,0);
 
   document.getElementById("total-price").innerText = "$" + total.toFixed(2);
 }
 
-/* ================= NAV BACK ================= */
+/* NAV */
+document.getElementById("back1").onclick = () => showStep(1);
+document.getElementById("back2").onclick = () => showStep(2);
 
-document.getElementById("back1").addEventListener("click", () => showStep(1));
-document.getElementById("back2").addEventListener("click", () => showStep(2));
-
-/* ================= RESET ================= */
-
-document.getElementById("reset").addEventListener("click", () => {
-  sqft = 0;
-  selectedService = null;
-  selectedExtras = [];
-
-  document.getElementById("sqft").value = "";
-
-  document.querySelectorAll(".service-btn").forEach(b => b.classList.remove("selected"));
-  document.querySelectorAll(".extra").forEach(e => e.classList.remove("active"));
-
-  showStep(1);
-});
+/* RESET */
+document.getElementById("reset").onclick = () => location.reload();
