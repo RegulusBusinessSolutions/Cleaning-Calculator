@@ -12,32 +12,48 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* Glow background */
+/* BACKGROUND GLOW */
 body::before {
   content: "";
   position: fixed;
-  width: 800px;
-  height: 800px;
-  background: radial-gradient(circle, rgba(0,255,156,0.15), transparent);
-  top: 50%;
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(circle, rgba(0,255,156,0.12), transparent 60%);
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: -1;
+  z-index: -2;
 }
 
+body::after {
+  content: "";
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255,0,229,0.12), transparent 60%);
+  bottom: 0;
+  right: 0;
+  transform: translate(30%, 30%);
+  z-index: -2;
+}
+
+/* APP CONTAINER */
 .app {
   width: 100%;
   max-width: 700px;
   padding: 30px;
 }
 
-/* TOP */
+/* TOP BAR */
 .logo {
   color: #00FF9C;
   font-weight: bold;
+  font-size: 14px;
   margin-bottom: 10px;
+  text-shadow: 0 0 10px #00FF9C;
 }
 
 .progress-track {
@@ -51,7 +67,8 @@ body::before {
   height: 100%;
   width: 33%;
   background: linear-gradient(90deg, #00FF9C, #FF00E5);
-  transition: 0.4s;
+  box-shadow: 0 0 12px #FF00E5;
+  transition: width 0.4s ease;
 }
 
 .progress-steps {
@@ -59,10 +76,10 @@ body::before {
   justify-content: space-between;
   font-size: 12px;
   opacity: 0.5;
-  margin-top: 5px;
+  margin-top: 6px;
 }
 
-.progress-steps .active {
+.progress-steps span.active {
   color: #00FF9C;
 }
 
@@ -73,64 +90,83 @@ body::before {
   border-radius: 20px;
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.08);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 0 40px rgba(0,255,156,0.08),
+    0 0 60px rgba(255,0,229,0.05);
+  transition: 0.3s ease;
 }
 
-/* STEP */
+.card:hover {
+  box-shadow:
+    0 0 60px rgba(0,255,156,0.12),
+    0 0 80px rgba(255,0,229,0.08);
+}
+
+/* STEP SYSTEM */
 .step {
   display: none;
+  flex-direction: column;
+  gap: 20px;
+  animation: fadeIn 0.35s ease;
 }
 
 .step.active {
-  display: block;
+  display: flex;
 }
 
 /* TEXT */
 .title {
   font-size: 32px;
-  margin-bottom: 10px;
+  font-weight: 600;
 }
 
 .subtitle {
+  font-size: 14px;
   opacity: 0.6;
-  margin-bottom: 25px;
 }
 
 /* INPUT */
 .input-wrapper input {
   width: 100%;
   padding: 18px;
-  border-radius: 12px;
+  border-radius: 14px;
   background: #111;
   border: 1px solid #222;
   color: white;
   font-size: 18px;
-  margin-bottom: 20px;
+  transition: 0.3s;
 }
 
 .input-wrapper input:focus {
   outline: none;
   border-color: #FF00E5;
-  box-shadow: 0 0 10px #FF00E5;
+  box-shadow: 0 0 15px rgba(255,0,229,0.4);
 }
 
 /* SELECT */
 .select {
   width: 100%;
   padding: 16px;
-  border-radius: 12px;
+  border-radius: 14px;
   background: #111;
   border: 1px solid #222;
   color: white;
   font-size: 16px;
-  margin-bottom: 20px;
+  transition: 0.3s;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #00FF9C;
+  box-shadow: 0 0 12px rgba(0,255,156,0.4);
 }
 
 /* BUTTON */
 .primary-btn {
   width: 100%;
   padding: 18px;
-  border-radius: 14px;
+  border-radius: 16px;
   border: none;
   font-size: 16px;
   font-weight: bold;
@@ -141,8 +177,27 @@ body::before {
 }
 
 .primary-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px #FF00E5;
+  transform: scale(1.04);
+  box-shadow: 0 0 25px rgba(255,0,229,0.4);
+}
+
+.primary-btn:active {
+  transform: scale(0.97);
+}
+
+/* BACK BUTTON */
+.back-btn {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  color: #00FF9C;
 }
 
 /* RESULTS */
@@ -157,11 +212,14 @@ body::before {
   border-radius: 16px;
   text-align: center;
   background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: 0.3s;
 }
 
 .box span {
   font-size: 12px;
   opacity: 0.6;
+  letter-spacing: 1px;
 }
 
 .box h3 {
@@ -169,17 +227,30 @@ body::before {
   margin-top: 8px;
 }
 
-/* COLORS */
+/* COLOR TIERS */
 .low {
-  border: 1px solid rgba(0,255,156,0.3);
+  border-color: rgba(0,255,156,0.3);
 }
 
 .mid {
-  border: 1px solid #00FF9C;
+  border-color: #00FF9C;
   box-shadow: 0 0 20px rgba(0,255,156,0.3);
+  transform: scale(1.02);
 }
 
 .high {
-  border: 1px solid #FF00E5;
+  border-color: #FF00E5;
   box-shadow: 0 0 20px rgba(255,0,229,0.3);
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
