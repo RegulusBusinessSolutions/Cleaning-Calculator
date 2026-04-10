@@ -1,27 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Cleaning Calculator</title>
+  <title>RBS Cleaning Calculator</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<h2>Cleaning Price Calculator</h2>
+<div class="card">
 
-<input type="number" id="sqft" placeholder="Square Feet">
+  <div class="logo">RBS</div>
+  <h2>Cleaning Price Calculator</h2>
 
-<select id="type">
-  <option value="regular">Regular Cleaning</option>
-  <option value="deep">Deep Cleaning</option>
-  <option value="rough">Post Construction (Rough)</option>
-  <option value="final">Final Clean</option>
-  <option value="touch">Touch Up</option>
-  <option value="turnover">Apartment Turnover</option>
-</select>
+  <input type="number" id="sqft" placeholder="Enter Square Feet">
 
-<h3>Low: $<span id="low">0</span></h3>
-<h3>Mid: $<span id="mid">0</span></h3>
-<h3>High: $<span id="high">0</span></h3>
+  <select id="type">
+    <option value="regular">Regular Cleaning</option>
+    <option value="deep">Deep Cleaning</option>
+    <option value="rough">Post Construction (Rough)</option>
+    <option value="final">Final Clean</option>
+    <option value="touch">Touch Up</option>
+    <option value="turnover">Apartment Turnover</option>
+  </select>
+
+  <div class="results">
+
+    <div class="box low">
+      <span>LOW</span>
+      <h3 id="low">$0</h3>
+    </div>
+
+    <div class="box mid">
+      <span>RECOMMENDED</span>
+      <h3 id="mid">$0</h3>
+    </div>
+
+    <div class="box high">
+      <span>PREMIUM</span>
+      <h3 id="high">$0</h3>
+    </div>
+
+  </div>
+
+</div>
 
 <script src="app.js"></script>
 
