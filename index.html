@@ -1,49 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RBS Cleaning Calculator</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<div class="card">
+<div class="wrapper">
 
-  <div class="logo">RBS</div>
-  <h2>Cleaning Price Calculator</h2>
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">RBS</div>
+    <h1>Cleaning Price Calculator</h1>
+    <p class="subtitle">Instant pricing based on industry standards</p>
+  </div>
 
-  <input type="number" id="sqft" placeholder="Enter Square Feet">
+  <!-- MAIN CARD -->
+  <div class="card">
 
-  <select id="type">
-    <option value="regular">Regular Cleaning</option>
-    <option value="deep">Deep Cleaning</option>
-    <option value="rough">Post Construction (Rough)</option>
-    <option value="final">Final Clean</option>
-    <option value="touch">Touch Up</option>
-    <option value="turnover">Apartment Turnover</option>
-  </select>
+    <!-- INPUT SECTION -->
+    <div class="inputs">
 
-  <div class="results">
+      <input 
+        type="number" 
+        id="sqft" 
+        placeholder="Enter square feet (e.g. 1500)"
+      >
 
-    <div class="box low">
-      <span>LOW</span>
-      <h3 id="low">$0</h3>
+      <select id="type">
+        <option value="regular">Regular Cleaning</option>
+        <option value="deep">Deep Cleaning</option>
+        <option value="rough">Post Construction (Rough)</option>
+        <option value="final">Final Clean</option>
+        <option value="touch">Touch Up</option>
+        <option value="turnover">Apartment Turnover</option>
+      </select>
+
     </div>
 
-    <div class="box mid">
-      <span>RECOMMENDED</span>
-      <h3 id="mid">$0</h3>
+    <!-- DIVIDER -->
+    <div class="divider"></div>
+
+    <!-- RESULTS -->
+    <div class="results">
+
+      <div class="box low">
+        <span>STARTING PRICE</span>
+        <h3 id="low">$0</h3>
+      </div>
+
+      <div class="box mid highlight">
+        <span>STANDARD</span>
+        <h3 id="mid">$0</h3>
+        <p class="tag">Most common choice</p>
+      </div>
+
+      <div class="box high">
+        <span>HEAVY CONDITION</span>
+        <h3 id="high">$0</h3>
+      </div>
+
     </div>
 
-    <div class="box high">
-      <span>PREMIUM</span>
-      <h3 id="high">$0</h3>
+    <!-- CTA -->
+    <div class="cta">
+      <p>Want this system for your cleaning business?</p>
+      <button onclick="handleCTA()">Get This System</button>
     </div>
 
   </div>
 
 </div>
 
+<!-- JS LOGIC -->
 <script src="app.js"></script>
+
+<!-- CTA HANDLER -->
+<script>
+function handleCTA() {
+  alert("Next step: connect this calculator to your CRM or lead system.");
+}
+</script>
 
 </body>
 </html>
