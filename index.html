@@ -21,7 +21,7 @@
 
       <input type="number" id="sqft" placeholder="Enter square feet" />
 
-      <button id="toStep2">Continue</button>
+      <button id="toStep2" class="primary-btn">Continue</button>
     </div>
   </div>
 
@@ -52,7 +52,7 @@
 
       <div class="nav">
         <button id="back1">Back</button>
-        <button id="toStep3">Continue</button>
+        <button id="toStep3" class="primary-btn">Continue</button>
       </div>
     </div>
   </div>
@@ -64,33 +64,31 @@
 
       <h1>Customize & Pricing</h1>
 
-      <!-- PRICING CARDS -->
+      <!-- PRICING -->
       <div class="pricing-cards">
 
         <div class="price-card">
           <span>Low</span>
-          <h2 id="lowPrice">$0</h2>
+          <h2 id="lowPrice">$0.00</h2>
         </div>
 
         <div class="price-card featured">
           <span>Recommended</span>
-          <h2 id="midPrice">$0</h2>
+          <h2 id="midPrice">$0.00</h2>
         </div>
 
         <div class="price-card">
           <span>Premium</span>
-          <h2 id="highPrice">$0</h2>
+          <h2 id="highPrice">$0.00</h2>
         </div>
 
       </div>
 
-
       <!-- TOTAL -->
       <div class="total-box">
         <span>Total</span>
-        <h2 id="totalPrice">$0</h2>
+        <h2 id="totalPrice">$0.00</h2>
       </div>
-
 
       <!-- EXTRAS -->
       <h3 class="section-title">Add Extras</h3>
@@ -119,7 +117,6 @@
 
       </div>
 
-
       <!-- NAV -->
       <div class="nav">
         <button id="back2">Back</button>
@@ -131,6 +128,8 @@
 
 </div>
 
+<!-- IMPORTANT: JS must load AFTER HTML -->
 <script src="app.js"></script>
+
 </body>
 </html>
