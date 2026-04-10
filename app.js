@@ -1,55 +1,51 @@
-const rates = {
-  regular: 0.12,
-  deep: 0.23,
-  rough: 0.25,
-  final: 0.35,
-  touch: 0.12,
-  turnover: 0.10
-};
-
 let currentStep = 1;
+let selectedService = null;
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  // Buttons
   const step1Btn = document.getElementById("step1Btn");
   const step2Btn = document.getElementById("step2Btn");
-  const backTo1 = document.getElementById("backTo1");
-  const backTo2 = document.getElementById("backTo2");
+  const restartBtn = document.getElementById("restartBtn");
 
-  // STEP 1 → STEP 2
-  if (step1Btn) {
-    step1Btn.addEventListener("click", () => {
-      const sqft = document.getElementById("sqft").value;
+  /* STEP 1 → STEP 2 */
+  step1Btn.addEventListener("click", () => {
+    const sqft = document.getElementById("sqft").value;
 
-      if (!sqft || sqft <= 0) {
-        alert("Enter valid square feet");
-        return;
-      }
+    if (!sqft || sqft <= 0) {
+      alert("Enter valid square feet");
+      return;
+    }
 
-      goToStep(2);
+    goToStep(2);
+  });
+
+  /* SERVICE SELECTION */
+  document.querySelectorAll(".service-card").forEach(card => {
+    card.addEventListener("click", () => {
+      document.querySelectorAll(".service-card").forEach(c => c.classList.remove("active"));
+      card.classList.add("active");
+      selectedService = card.dataset.type;
     });
-  }
+  });
 
-  // STEP 2 → STEP 3
-  if (step2Btn) {
-    step2Btn.addEventListener("click", () => {
-      goToStep(3);
-    });
-  }
+  /* STEP 2 → STEP 3 */
+  step2Btn.addEventListener("click", () => {
+    if (!selectedService) {
+      alert("Select a service");
+      return;
+    }
 
-  // BACK BUTTONS
-  if (backTo1) {
-    backTo1.addEventListener("click", () => {
-      goToStep(1);
-    });
-  }
+    goToStep(3);
+  });
 
-  if (backTo2) {
-    backTo2.addEventListener("click", () => {
-      goToStep(2);
-    });
-  }
+  /* RESTART */
+  restartBtn.addEventListener("click", () => {
+    selectedService = null;
+
+    document.querySelectorAll(".service-card").forEach(c => c.classList.remove("active"));
+
+    goToStep(1);
+  });
 
   updateProgress();
 });
@@ -85,23 +81,73 @@ function updateProgress() {
   });
 }
 
+/* PRICING TABLE */
+function getPrice(sqft, type) {
+
+  const pricing = {
+
+    standard: [
+      [999, 160, "1 hr"],
+      [1499, 175, "1 hr 15 min"],
+      [1999, 190, "1 hr 30 min"],
+      [2499, 210, "1 hr 45 min"],
+      [2999, 230, "2 hr"],
+      [3499, 250, "2 hr 15 min"],
+      [3999, 270, "2 hr 30 min"],
+      [4499, 290, "2 hr 45 min"],
+      [4999, 320, "3 hr"]
+    ],
+
+    deep: [
+      [999, 310, "2 hr"],
+      [1499, 340, "2 hr 15 min"],
+      [1999, 370, "2 hr 30 min"],
+      [2499, 400, "2 hr 45 min"],
+      [2999, 430, "3 hr"],
+      [3499, 470, "3 hr 15 min"],
+      [3999, 520, "3 hr 30 min"],
+      [4499, 580, "3 hr 45 min"],
+      [4999, 680, "4 hr"]
+    ],
+
+    move: [
+      [999, 330, "3 hr"],
+      [1499, 360, "3 hr 15 min"],
+      [1999, 390, "3 hr 30 min"],
+      [2499, 420, "3 hr 45 min"],
+      [2999, 450, "4 hr"],
+      [3499, 490, "4 hr 15 min"],
+      [3999, 540, "4 hr 30 min"],
+      [4499, 600, "4 hr 45 min"],
+      [4999, 680, "5 hr"]
+    ]
+
+  };
+
+  const table = pricing[type];
+
+  for (let i = 0; i < table.length; i++) {
+    if (sqft <= table[i][0]) {
+      return table[i];
+    }
+  }
+
+  return [5000, "Call for quote", "Custom"];
+}
+
 /* CALCULATION */
 function calculate() {
   const sqft = parseFloat(document.getElementById("sqft").value);
-  const type = document.getElementById("type").value;
 
-  if (!sqft || !rates[type]) return;
+  if (!sqft || !selectedService) return;
 
-  const base = sqft * rates[type];
+  const result = getPrice(sqft, selectedService);
 
-  setValue("low", base);
-  setValue("mid", base * 1.10);
-  setValue("high", base * 1.20);
-}
+  const price = result[1];
+  const time = result[2];
 
-/* FORMAT */
-function setValue(id, value) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.innerText = "$" + value.toFixed(2);
+  document.getElementById("price").innerText =
+    typeof price === "number" ? "$" + price.toFixed(2) : price;
+
+  document.getElementById("time").innerText = time;
 }
