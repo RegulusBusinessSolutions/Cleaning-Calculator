@@ -1,150 +1,123 @@
-// STATE
 let sqft = 0;
-let service = null;
+let selectedService = null;
 let selectedExtras = [];
 
-// ELEMENTS
-const step1 = document.getElementById("step1");
-const step2 = document.getElementById("step2");
-const step3 = document.getElementById("step3");
+/* ================= NAVIGATION ================= */
 
-const sqftInput = document.getElementById("sqft");
+function showStep(step) {
+  document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
+  document.getElementById("step" + step).classList.add("active");
+}
 
-const lowPrice = document.getElementById("lowPrice");
-const midPrice = document.getElementById("midPrice");
-const highPrice = document.getElementById("highPrice");
-const totalPrice = document.getElementById("totalPrice");
+/* ================= STEP 1 ================= */
 
-// =====================
-// STEP NAVIGATION
-// =====================
+document.getElementById("toStep2").addEventListener("click", () => {
+  const input = document.getElementById("sqft").value;
 
-document.getElementById("toStep2").onclick = () => {
-  sqft = parseFloat(sqftInput.value);
-
-  if (!sqft || sqft <= 0) {
-    alert("Enter valid square feet");
+  if (!input || input <= 0) {
+    alert("Enter valid square footage");
     return;
   }
 
-  step1.classList.remove("active");
-  step2.classList.add("active");
-};
+  sqft = parseInt(input);
+  showStep(2);
+});
 
-document.getElementById("back1").onclick = () => {
-  step2.classList.remove("active");
-  step1.classList.add("active");
-};
+/* ================= SERVICE SELECTION ================= */
 
-document.getElementById("toStep3").onclick = () => {
-  if (!service) {
+document.querySelectorAll(".service-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".service-btn").forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+
+    selectedService = btn.dataset.service;
+  });
+});
+
+/* ================= STEP 2 FIX ================= */
+
+document.getElementById("toStep3").addEventListener("click", () => {
+  if (!selectedService) {
     alert("Select a service");
     return;
   }
 
   calculatePrices();
-
-  step2.classList.remove("active");
-  step3.classList.add("active");
-};
-
-document.getElementById("back2").onclick = () => {
-  step3.classList.remove("active");
-  step2.classList.add("active");
-};
-
-document.getElementById("reset").onclick = () => {
-  location.reload();
-};
-
-// =====================
-// SERVICE SELECTION
-// =====================
-
-document.querySelectorAll(".service-btn").forEach(btn => {
-  btn.onclick = function () {
-    document.querySelectorAll(".service-btn").forEach(b => {
-      b.classList.remove("selected");
-    });
-
-    this.classList.add("selected");
-    service = this.getAttribute("data-type");
-
-    // DEBUG (optional)
-    console.log("Service selected:", service);
-  };
+  showStep(3);
 });
 
-// =====================
-// EXTRAS SELECTION (TILES)
-// =====================
+/* ================= PRICING ================= */
 
-document.querySelectorAll(".extra").forEach(tile => {
-  tile.onclick = function () {
-    const price = parseFloat(this.getAttribute("data-price"));
+function calculatePrices() {
+  let rate = 0;
 
-    this.classList.toggle("active");
+  if (selectedService === "standard") rate = 0.10;
+  if (selectedService === "deep") rate = 0.20;
+  if (selectedService === "move") rate = 0.22;
 
-    if (selectedExtras.includes(price)) {
+  const base = sqft * rate;
+  const mid = base * 1.1;
+  const high = base * 1.2;
+
+  document.getElementById("price-low").innerText = "$" + base.toFixed(2);
+  document.getElementById("price-mid").innerText = "$" + mid.toFixed(2);
+  document.getElementById("price-high").innerText = "$" + high.toFixed(2);
+
+  updateTotal(base);
+}
+
+/* ================= EXTRAS ================= */
+
+document.querySelectorAll(".extra").forEach(el => {
+  el.addEventListener("click", () => {
+    const price = parseFloat(el.dataset.price);
+
+    if (el.classList.contains("active")) {
+      el.classList.remove("active");
       selectedExtras = selectedExtras.filter(p => p !== price);
     } else {
+      el.classList.add("active");
       selectedExtras.push(price);
     }
 
     updateTotal();
-  };
+  });
 });
 
-// =====================
-// PRICING LOGIC
-// =====================
+/* ================= TOTAL ================= */
 
-function calculatePrices() {
-
+function updateTotal(baseOverride = null) {
   let rate = 0;
 
-  if (service === "standard") rate = 0.10;
-  if (service === "deep") rate = 0.20;
-  if (service === "move") rate = 0.22;
+  if (selectedService === "standard") rate = 0.10;
+  if (selectedService === "deep") rate = 0.20;
+  if (selectedService === "move") rate = 0.22;
 
-  const base = sqft * rate;
-  const mid = base * 1.10;
-  const high = base * 1.20;
+  let base = baseOverride !== null ? baseOverride : sqft * rate;
 
-  // Store globally
-  window.pricing = {
-    low: base,
-    mid: mid,
-    high: high
-  };
+  let extrasTotal = selectedExtras.reduce((a, b) => a + b, 0);
 
-  // Update UI
-  lowPrice.textContent = format(base);
-  midPrice.textContent = format(mid);
-  highPrice.textContent = format(high);
+  const total = base + extrasTotal;
 
-  updateTotal();
+  document.getElementById("total-price").innerText = "$" + total.toFixed(2);
 }
 
-// =====================
-// TOTAL UPDATE
-// =====================
+/* ================= NAV BACK ================= */
 
-function updateTotal() {
-  if (!window.pricing) return;
+document.getElementById("back1").addEventListener("click", () => showStep(1));
+document.getElementById("back2").addEventListener("click", () => showStep(2));
 
-  const extrasTotal = selectedExtras.reduce((sum, val) => sum + val, 0);
+/* ================= RESET ================= */
 
-  // Default = recommended price
-  const total = window.pricing.mid + extrasTotal;
+document.getElementById("reset").addEventListener("click", () => {
+  sqft = 0;
+  selectedService = null;
+  selectedExtras = [];
 
-  totalPrice.textContent = format(total);
-}
+  document.getElementById("sqft").value = "";
 
-// =====================
-// FORMAT
-// =====================
+  document.querySelectorAll(".service-btn").forEach(b => b.classList.remove("selected"));
+  document.querySelectorAll(".extra").forEach(e => e.classList.remove("active"));
 
-function format(num) {
-  return "$" + num.toFixed(2);
-}
+  showStep(1);
+});
