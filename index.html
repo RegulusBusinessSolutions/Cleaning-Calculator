@@ -31,13 +31,13 @@
     <!-- STEP 1 -->
     <div class="step active" id="step1">
       <h1 class="title">Estimate Your Cleaning Cost</h1>
-      <p class="subtitle">Accurate pricing based on square footage</p>
+      <p class="subtitle">Enter your property size</p>
 
       <div class="input-wrapper">
         <input 
           type="number" 
           id="sqft" 
-          placeholder="Enter Square Feet"
+          placeholder="Square Feet (e.g. 1500)"
         >
       </div>
 
@@ -48,51 +48,46 @@
 
     <!-- STEP 2 -->
     <div class="step" id="step2">
-      <h2 class="title">Select Cleaning Type</h2>
 
-      <select id="type" class="select">
-        <option value="regular">Regular Cleaning</option>
-        <option value="deep">Deep Cleaning</option>
-        <option value="rough">Post Construction (Rough)</option>
-        <option value="final">Final Clean</option>
-        <option value="touch">Touch Up</option>
-        <option value="turnover">Apartment Turnover</option>
-      </select>
+      <h2 class="title">Select Service</h2>
 
-      <button class="primary-btn" id="step2Btn">
-        Calculate
-      </button>
+      <div class="service-grid">
 
-      <button class="back-btn" id="backTo1">
-        ← Back
-      </button>
-    </div>
-
-    <!-- STEP 3 -->
-    <div class="step" id="step3">
-      <h2 class="title">Your Estimate</h2>
-
-      <div class="results">
-
-        <div class="box low">
-          <span>STARTING</span>
-          <h3 id="low">$0</h3>
+        <div class="service-card" data-type="standard">
+          <h3>Standard Cleaning</h3>
+          <p>Maintenance cleaning</p>
         </div>
 
-        <div class="box mid">
-          <span>STANDARD</span>
-          <h3 id="mid">$0</h3>
+        <div class="service-card" data-type="deep">
+          <h3>Deep Cleaning</h3>
+          <p>Detailed + heavy areas</p>
         </div>
 
-        <div class="box high">
-          <span>PREMIUM</span>
-          <h3 id="high">$0</h3>
+        <div class="service-card" data-type="move">
+          <h3>Move In / Out</h3>
+          <p>Empty property cleaning</p>
         </div>
 
       </div>
 
-      <button class="back-btn" id="backTo2">
-        ← Back
+      <button class="primary-btn" id="step2Btn">
+        Continue
+      </button>
+
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step" id="step3">
+
+      <h2 class="title">Your Estimate</h2>
+
+      <div class="result-main">
+        <h1 id="price">$0</h1>
+        <p id="time">--</p>
+      </div>
+
+      <button class="secondary-btn" id="restartBtn">
+        Start Over
       </button>
 
     </div>
@@ -101,7 +96,7 @@
 
 </div>
 
-<!-- JS (must be last) -->
+<!-- JS -->
 <script src="app.js"></script>
 
 </body>
