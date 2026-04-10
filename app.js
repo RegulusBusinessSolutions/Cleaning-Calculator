@@ -2,13 +2,13 @@ let sqft = 0;
 let service = null;
 let basePrice = 0;
 
-/* ================= STEP CONTROL ================= */
+/* STEP CONTROL */
 function showStep(step) {
   document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
   document.getElementById("step" + step).classList.add("active");
 }
 
-/* ================= STEP 1 ================= */
+/* STEP 1 */
 document.getElementById("toStep2").onclick = () => {
   const value = document.getElementById("sqft").value;
 
@@ -21,7 +21,7 @@ document.getElementById("toStep2").onclick = () => {
   showStep(2);
 };
 
-/* ================= SERVICE SELECTION ================= */
+/* SERVICE SELECTION */
 document.querySelectorAll(".service-btn").forEach(btn => {
   btn.onclick = function () {
     document.querySelectorAll(".service-btn").forEach(b => b.classList.remove("selected"));
@@ -30,7 +30,7 @@ document.querySelectorAll(".service-btn").forEach(btn => {
   };
 });
 
-/* ================= STEP 2 ================= */
+/* STEP 2 */
 document.getElementById("toStep3").onclick = () => {
   if (!service) {
     alert("Select a service");
@@ -41,7 +41,7 @@ document.getElementById("toStep3").onclick = () => {
   showStep(3);
 };
 
-/* ================= PRICING ================= */
+/* PRICING */
 function calculateBasePrices() {
 
   let rate = 0;
@@ -54,7 +54,7 @@ function calculateBasePrices() {
   const mid = low * 1.10;
   const high = low * 1.20;
 
-  basePrice = mid; // always use recommended
+  basePrice = mid;
 
   document.getElementById("price-low").innerText = format(low);
   document.getElementById("price-mid").innerText = format(mid);
@@ -62,8 +62,7 @@ function calculateBasePrices() {
 
   updateTotal();
 }
-
-/* ================= QUANTITY CONTROLS ================= */
+/* QUANTITY CONTROLS */
 document.querySelectorAll(".extra-item").forEach(item => {
 
   const minus = item.querySelector(".minus");
@@ -91,7 +90,7 @@ document.querySelectorAll(".extra-item").forEach(item => {
   item.dataset.qty = 0;
 });
 
-/* ================= EXTRAS CALC ================= */
+/* EXTRAS CALC */
 function calculateExtras() {
   let total = 0;
 
@@ -105,9 +104,8 @@ function calculateExtras() {
   return total;
 }
 
-/* ================= TOTAL ================= */
+/* TOTAL */
 function updateTotal() {
-
   const extras = calculateExtras();
   const total = basePrice + extras;
 
@@ -116,12 +114,12 @@ function updateTotal() {
   document.getElementById("total-price").innerText = format(total);
 }
 
-/* ================= NAV ================= */
+/* NAV */
 document.getElementById("back1").onclick = () => showStep(1);
 document.getElementById("back2").onclick = () => showStep(2);
 document.getElementById("reset").onclick = () => location.reload();
 
-/* ================= FORMAT ================= */
+/* FORMAT */
 function format(num) {
   return "$" + num.toFixed(2);
 }
