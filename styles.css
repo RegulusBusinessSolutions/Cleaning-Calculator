@@ -12,7 +12,6 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  overflow-x: hidden;
 }
 
 /* BACKGROUND GLOW */
@@ -40,14 +39,14 @@ body::after {
   z-index: -2;
 }
 
-/* APP CONTAINER */
+/* APP */
 .app {
   width: 100%;
   max-width: 700px;
   padding: 30px;
 }
 
-/* TOP BAR */
+/* TOP */
 .logo {
   color: #00FF9C;
   font-weight: bold;
@@ -67,8 +66,7 @@ body::after {
   height: 100%;
   width: 33%;
   background: linear-gradient(90deg, #00FF9C, #FF00E5);
-  box-shadow: 0 0 12px #FF00E5;
-  transition: width 0.4s ease;
+  transition: 0.4s;
 }
 
 .progress-steps {
@@ -87,27 +85,20 @@ body::after {
 .card {
   margin-top: 30px;
   padding: 40px;
-  border-radius: 20px;
+  border-radius: 22px;
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.08);
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(16px);
   box-shadow:
     0 0 40px rgba(0,255,156,0.08),
     0 0 60px rgba(255,0,229,0.05);
-  transition: 0.3s ease;
 }
 
-.card:hover {
-  box-shadow:
-    0 0 60px rgba(0,255,156,0.12),
-    0 0 80px rgba(255,0,229,0.08);
-}
-
-/* STEP SYSTEM */
+/* STEP */
 .step {
   display: none;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
   animation: fadeIn 0.35s ease;
 }
 
@@ -117,7 +108,7 @@ body::after {
 
 /* TEXT */
 .title {
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 600;
 }
 
@@ -130,7 +121,7 @@ body::after {
 .input-wrapper input {
   width: 100%;
   padding: 18px;
-  border-radius: 14px;
+  border-radius: 16px;
   background: #111;
   border: 1px solid #222;
   color: white;
@@ -141,32 +132,14 @@ body::after {
 .input-wrapper input:focus {
   outline: none;
   border-color: #FF00E5;
-  box-shadow: 0 0 15px rgba(255,0,229,0.4);
-}
-
-/* SELECT */
-.select {
-  width: 100%;
-  padding: 16px;
-  border-radius: 14px;
-  background: #111;
-  border: 1px solid #222;
-  color: white;
-  font-size: 16px;
-  transition: 0.3s;
-}
-
-.select:focus {
-  outline: none;
-  border-color: #00FF9C;
-  box-shadow: 0 0 12px rgba(0,255,156,0.4);
+  box-shadow: 0 0 12px rgba(255,0,229,0.4);
 }
 
 /* BUTTON */
 .primary-btn {
   width: 100%;
   padding: 18px;
-  border-radius: 16px;
+  border-radius: 18px;
   border: none;
   font-size: 16px;
   font-weight: bold;
@@ -177,7 +150,7 @@ body::after {
 }
 
 .primary-btn:hover {
-  transform: scale(1.04);
+  transform: scale(1.03);
   box-shadow: 0 0 25px rgba(255,0,229,0.4);
 }
 
@@ -185,62 +158,77 @@ body::after {
   transform: scale(0.97);
 }
 
-/* BACK BUTTON */
-.back-btn {
-  background: none;
-  border: none;
-  color: #aaa;
-  font-size: 13px;
-  cursor: pointer;
-  text-align: left;
-  transition: 0.3s;
+/* SERVICE CARDS */
+.service-grid {
+  display: grid;
+  gap: 14px;
 }
 
-.back-btn:hover {
-  color: #00FF9C;
-}
-
-/* RESULTS */
-.results {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.box {
-  padding: 25px;
+.service-card {
+  padding: 20px;
   border-radius: 16px;
-  text-align: center;
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.08);
+  cursor: pointer;
   transition: 0.3s;
 }
 
-.box span {
-  font-size: 12px;
-  opacity: 0.6;
-  letter-spacing: 1px;
+.service-card:hover {
+  transform: translateY(-3px);
+  border-color: #FF00E5;
+  box-shadow: 0 0 15px rgba(255,0,229,0.2);
 }
 
-.box h3 {
-  font-size: 34px;
-  margin-top: 8px;
-}
-
-/* COLOR TIERS */
-.low {
-  border-color: rgba(0,255,156,0.3);
-}
-
-.mid {
+.service-card.active {
   border-color: #00FF9C;
   box-shadow: 0 0 20px rgba(0,255,156,0.3);
-  transform: scale(1.02);
+  transform: translateY(-2px) scale(1.01);
 }
 
-.high {
-  border-color: #FF00E5;
-  box-shadow: 0 0 20px rgba(255,0,229,0.3);
+.service-card h3 {
+  font-size: 17px;
+  margin-bottom: 5px;
+}
+
+.service-card p {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* RESULT */
+.result-main {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.result-main h1 {
+  font-size: 52px;
+  background: linear-gradient(90deg, #00FF9C, #FF00E5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.result-main p {
+  margin-top: 10px;
+  opacity: 0.6;
+  font-size: 14px;
+}
+
+/* SECONDARY BUTTON */
+.secondary-btn {
+  margin-top: 20px;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.secondary-btn:hover {
+  border-color: #00FF9C;
+  color: #00FF9C;
 }
 
 /* ANIMATION */
