@@ -6,97 +6,118 @@
   <title>RBS Cleaning Calculator</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
 <div class="app">
 
-  <!-- TOP BAR -->
-  <div class="topbar">
-    <div class="logo">RBS</div>
+  <!-- STEP 1 -->
+  <section class="step active" id="step1">
+    <div class="card">
+      <h1>Estimate Cleaning Cost</h1>
+      <p>Enter your property size</p>
 
-    <div class="progress-track">
-      <div class="progress-fill" id="progressFill"></div>
+      <input 
+        type="number" 
+        id="sqft" 
+        placeholder="Enter square feet"
+      >
+
+      <button id="toStep2">Continue</button>
     </div>
+  </section>
 
-    <div class="progress-steps">
-      <span class="active">1</span>
-      <span>2</span>
-      <span>3</span>
-    </div>
-  </div>
 
-  <!-- MAIN CARD -->
-  <div class="card">
+  <!-- STEP 2 -->
+  <section class="step" id="step2">
+    <div class="card">
 
-    <!-- STEP 1 -->
-    <div class="step active" id="step1">
-      <h1 class="title">Estimate Your Cleaning Cost</h1>
-      <p class="subtitle">Enter your property size</p>
-
-      <div class="input-wrapper">
-        <input 
-          type="number" 
-          id="sqft" 
-          placeholder="Square Feet (e.g. 1500)"
-        >
-      </div>
-
-      <button class="primary-btn" id="step1Btn">
-        Continue
-      </button>
-    </div>
-
-    <!-- STEP 2 -->
-    <div class="step" id="step2">
-
-      <h2 class="title">Select Service</h2>
+      <h1>Select Service</h1>
 
       <div class="service-grid">
 
-        <div class="service-card" data-type="standard">
+        <button class="service-btn" data-service="standard">
           <h3>Standard Cleaning</h3>
           <p>Maintenance cleaning</p>
-        </div>
+        </button>
 
-        <div class="service-card" data-type="deep">
+        <button class="service-btn" data-service="deep">
           <h3>Deep Cleaning</h3>
           <p>Detailed + heavy areas</p>
-        </div>
+        </button>
 
-        <div class="service-card" data-type="move">
+        <button class="service-btn" data-service="move">
           <h3>Move In / Out</h3>
           <p>Empty property cleaning</p>
+        </button>
+
+      </div>
+
+      <div class="nav">
+        <button id="back1">Back</button>
+        <button id="toStep3">Continue</button>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- STEP 3 -->
+  <section class="step" id="step3">
+    <div class="card">
+
+      <h1>Customize & Pricing</h1>
+
+      <div class="pricing-box">
+        <div>
+          <span>Low</span>
+          <h2 id="lowPrice">$0</h2>
         </div>
 
+        <div>
+          <span>Recommended</span>
+          <h2 id="midPrice">$0</h2>
+        </div>
+
+        <div>
+          <span>Premium</span>
+          <h2 id="highPrice">$0</h2>
+        </div>
       </div>
 
-      <button class="primary-btn" id="step2Btn">
-        Continue
-      </button>
+      <h2>Add Extras</h2>
 
-    </div>
+      <div class="extras-grid">
 
-    <!-- STEP 3 -->
-    <div class="step" id="step3">
+        <label><input type="checkbox" data-price="100"> Heavy Duty ($100)</label>
+        <label><input type="checkbox" data-price="40"> Extra Rooms ($40)</label>
+        <label><input type="checkbox" data-price="100"> Windows ($100)</label>
+        <label><input type="checkbox" data-price="10"> Blinds ($10)</label>
+        <label><input type="checkbox" data-price="40"> Baseboards ($40)</label>
+        <label><input type="checkbox" data-price="70"> Inside Cabinets ($70)</label>
+        <label><input type="checkbox" data-price="40"> Inside Fridge ($40)</label>
+        <label><input type="checkbox" data-price="40"> Inside Oven ($40)</label>
+        <label><input type="checkbox" data-price="40"> Dishes ($40)</label>
+        <label><input type="checkbox" data-price="50"> Garage ($50)</label>
+        <label><input type="checkbox" data-price="10"> Pets ($10)</label>
+        <label><input type="checkbox" data-price="40"> Interior Walls ($40)</label>
+        <label><input type="checkbox" data-price="10"> Interior Doors ($10)</label>
+        <label><input type="checkbox" data-price="50"> Eco Products ($50)</label>
+        <label><input type="checkbox" data-price="10"> A/C Vents ($10)</label>
+        <label><input type="checkbox" data-price="60"> Organizing ($60)</label>
 
-      <h2 class="title">Your Estimate</h2>
-
-      <div class="result-main">
-        <h1 id="price">$0</h1>
-        <p id="time">--</p>
       </div>
 
-      <button class="secondary-btn" id="restartBtn">
-        Start Over
-      </button>
+      <div class="nav">
+        <button id="back2">Back</button>
+        <button id="reset">Start Over</button>
+      </div>
 
     </div>
-
-  </div>
+  </section>
 
 </div>
 
-<!-- JS -->
 <script src="app.js"></script>
 
 </body>
