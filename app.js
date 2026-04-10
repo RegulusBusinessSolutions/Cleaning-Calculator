@@ -7,7 +7,7 @@ const rates = {
   turnover: 0.10
 };
 
-// Format currency properly
+// Format currency
 function formatCurrency(value) {
   return "$" + value.toFixed(2);
 }
@@ -25,10 +25,12 @@ function animateValue(id, endValue, duration = 500) {
 
   function step(timestamp) {
     if (!startTime) startTime = timestamp;
+
     const progress = Math.min((timestamp - startTime) / duration, 1);
     const eased = easeOutQuad(progress);
 
     const current = startValue + (endValue - startValue) * eased;
+
     element.innerText = formatCurrency(current);
 
     if (progress < 1) {
@@ -41,7 +43,7 @@ function animateValue(id, endValue, duration = 500) {
   requestAnimationFrame(step);
 }
 
-// Core calculation
+// Main calculation
 function calculate() {
   const sqftInput = document.getElementById("sqft");
   const typeSelect = document.getElementById("type");
@@ -59,28 +61,39 @@ function calculate() {
 
   const base = sqft * rates[type];
 
-  const prices = {
+  const results = {
     low: base,
     mid: base * 1.10,
     high: base * 1.20
   };
 
-  // Animate each value
-  animateValue("low", prices.low);
-  animateValue("mid", prices.mid);
-  animateValue("high", prices.high);
+  // Animate results
+  animateValue("low", results.low);
+  animateValue("mid", results.mid);
+  animateValue("high", results.high);
 }
 
-// Event listeners (safe initialization)
+// Debounce (prevents too many calculations while typing)
+function debounce(func, delay = 300) {
+  let timeout;
+  return function () {
+    clearTimeout(timeout);
+    timeout = setTimeout(func, delay);
+  };
+}
+
+// Initialize
 function initCalculator() {
   const sqftInput = document.getElementById("sqft");
   const typeSelect = document.getElementById("type");
 
   if (!sqftInput || !typeSelect) return;
 
-  sqftInput.addEventListener("input", calculate);
+  const debouncedCalculate = debounce(calculate, 200);
+
+  sqftInput.addEventListener("input", debouncedCalculate);
   typeSelect.addEventListener("change", calculate);
 }
 
-// Run when DOM is ready
+// Run when ready
 document.addEventListener("DOMContentLoaded", initCalculator);
