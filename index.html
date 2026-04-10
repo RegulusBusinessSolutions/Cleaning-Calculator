@@ -10,6 +10,7 @@
 
 <div class="app">
 
+  <!-- TOP BAR -->
   <div class="topbar">
     <div class="logo">RBS</div>
 
@@ -24,6 +25,7 @@
     </div>
   </div>
 
+  <!-- MAIN CARD -->
   <div class="card">
 
     <!-- STEP 1 -->
@@ -32,10 +34,14 @@
       <p class="subtitle">Accurate pricing based on square footage</p>
 
       <div class="input-wrapper">
-        <input type="number" id="sqft" placeholder="Enter Square Feet">
+        <input 
+          type="number" 
+          id="sqft" 
+          placeholder="Enter Square Feet"
+        >
       </div>
 
-      <button class="primary-btn" onclick="nextStep(2)">
+      <button class="primary-btn" id="step1Btn">
         Continue
       </button>
     </div>
@@ -53,8 +59,12 @@
         <option value="turnover">Apartment Turnover</option>
       </select>
 
-      <button class="primary-btn" onclick="nextStep(3)">
+      <button class="primary-btn" id="step2Btn">
         Calculate
+      </button>
+
+      <button class="back-btn" id="backTo1">
+        ← Back
       </button>
     </div>
 
@@ -81,12 +91,17 @@
 
       </div>
 
+      <button class="back-btn" id="backTo2">
+        ← Back
+      </button>
+
     </div>
 
   </div>
 
 </div>
 
+<!-- JS (must be last) -->
 <script src="app.js"></script>
 
 </body>
