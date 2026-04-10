@@ -11,84 +11,111 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* Container */
-body > * {
+/* Background glow */
+body::before {
+  content: "";
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0,255,156,0.15), transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+/* Wrapper */
+.wrapper {
   width: 100%;
   max-width: 420px;
-  text-align: center;
+  padding: 20px;
 }
 
-/* Title */
-h2 {
+/* Header */
+.header {
+  text-align: center;
   margin-bottom: 20px;
-  font-weight: 600;
-  color: #ffffff;
+}
+
+.logo {
+  font-size: 16px;
+  font-weight: bold;
+  color: #00FF9C;
+  text-shadow: 0 0 10px #00FF9C;
+  margin-bottom: 6px;
+}
+
+.header h1 {
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+/* Card */
+.card {
+  background: rgba(255,255,255,0.03);
+  padding: 28px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 40px rgba(0,255,156,0.08);
+  transition: 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 0 60px rgba(0,255,156,0.15);
 }
 
 /* Inputs */
-input, select {
+.inputs input,
+.inputs select {
   width: 100%;
   padding: 14px;
-  margin: 10px 0;
+  margin-bottom: 12px;
   border-radius: 10px;
   border: 1px solid #222;
   background: #111;
   color: white;
   font-size: 14px;
-  transition: 0.3s ease;
+  transition: 0.3s;
 }
 
-input::placeholder {
+.inputs input::placeholder {
   color: #777;
 }
 
-input:focus, select:focus {
+.inputs input:focus,
+.inputs select:focus {
   outline: none;
   border-color: #00FF9C;
-  box-shadow: 0 0 10px rgba(0,255,156,0.5);
+  box-shadow: 0 0 12px rgba(0,255,156,0.5);
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+  margin: 18px 0;
 }
 
 /* Results */
-h3 {
-  margin-top: 12px;
-  font-weight: 500;
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-/* Highlight numbers */
-span {
-  color: #00FF9C;
-  font-weight: 600;
-  text-shadow: 0 0 8px rgba(0,255,156,0.6);
-}
-
-/* Card effect */
-body > * {
-  background: rgba(255,255,255,0.03);
-  padding: 30px;
-  border-radius: 16px;
+/* Pricing boxes */
+.box {
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.08);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 40px rgba(0,255,156,0.08);
-  transition: 0.3s ease;
-}
-
-body > *:hover {
-  box-shadow: 0 0 60px rgba(0,255,156,0.15);
-}
-
-/* Subtle glow animation */
-@keyframes pulseGlow {
-  from {
-    box-shadow: 0 0 20px rgba(0,255,156,0.05);
-  }
-  to {
-    box-shadow: 0 0 50px rgba(0,255,156,0.15);
-  }
-}
-
-body > * {
-  animation: pulseGlow 4s infinite alternate;
-}
