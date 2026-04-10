@@ -10,24 +10,30 @@ const step3 = document.getElementById("step3");
 
 const sqftInput = document.getElementById("sqft");
 
-const serviceButtons = document.querySelectorAll(".service-btn");
-const extraButtons = document.querySelectorAll(".extra");
+const lowPrice = document.getElementById("lowPrice");
+const midPrice = document.getElementById("midPrice");
+const highPrice = document.getElementById("highPrice");
+const totalPrice = document.getElementById("totalPrice");
 
-const lowPriceEl = document.getElementById("lowPrice");
-const midPriceEl = document.getElementById("midPrice");
-const highPriceEl = document.getElementById("highPrice");
-const totalPriceEl = document.getElementById("totalPrice");
+// =====================
+// STEP NAVIGATION
+// =====================
 
-// NAVIGATION
 document.getElementById("toStep2").onclick = () => {
-  sqft = parseInt(sqftInput.value);
+  sqft = parseFloat(sqftInput.value);
 
   if (!sqft || sqft <= 0) {
-    alert("Enter valid square footage");
+    alert("Enter valid square feet");
     return;
   }
 
-  goTo(step1, step2);
+  step1.classList.remove("active");
+  step2.classList.add("active");
+};
+
+document.getElementById("back1").onclick = () => {
+  step2.classList.remove("active");
+  step1.classList.add("active");
 };
 
 document.getElementById("toStep3").onclick = () => {
@@ -37,37 +43,47 @@ document.getElementById("toStep3").onclick = () => {
   }
 
   calculatePrices();
-  goTo(step2, step3);
+
+  step2.classList.remove("active");
+  step3.classList.add("active");
 };
 
-document.getElementById("back1").onclick = () => goTo(step2, step1);
-document.getElementById("back2").onclick = () => goTo(step3, step2);
+document.getElementById("back2").onclick = () => {
+  step3.classList.remove("active");
+  step2.classList.add("active");
+};
 
 document.getElementById("reset").onclick = () => {
   location.reload();
 };
 
-// STEP SWITCH
-function goTo(from, to) {
-  from.classList.remove("active");
-  to.classList.add("active");
-}
-
+// =====================
 // SERVICE SELECTION
-serviceButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    serviceButtons.forEach(b => b.classList.remove("selected"));
-    btn.classList.add("selected");
-    service = btn.dataset.type;
-  });
+// =====================
+
+document.querySelectorAll(".service-btn").forEach(btn => {
+  btn.onclick = function () {
+    document.querySelectorAll(".service-btn").forEach(b => {
+      b.classList.remove("selected");
+    });
+
+    this.classList.add("selected");
+    service = this.getAttribute("data-type");
+
+    // DEBUG (optional)
+    console.log("Service selected:", service);
+  };
 });
 
-// EXTRAS TOGGLE
-extraButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    const price = parseFloat(btn.dataset.price);
+// =====================
+// EXTRAS SELECTION (TILES)
+// =====================
 
-    btn.classList.toggle("active");
+document.querySelectorAll(".extra").forEach(tile => {
+  tile.onclick = function () {
+    const price = parseFloat(this.getAttribute("data-price"));
+
+    this.classList.toggle("active");
 
     if (selectedExtras.includes(price)) {
       selectedExtras = selectedExtras.filter(p => p !== price);
@@ -76,48 +92,59 @@ extraButtons.forEach(btn => {
     }
 
     updateTotal();
-  });
+  };
 });
 
+// =====================
 // PRICING LOGIC
+// =====================
+
 function calculatePrices() {
-  let baseRate = 0;
 
-  if (service === "standard") baseRate = 0.10;
-  if (service === "deep") baseRate = 0.20;
-  if (service === "move") baseRate = 0.22;
+  let rate = 0;
 
-  const base = sqft * baseRate;
+  if (service === "standard") rate = 0.10;
+  if (service === "deep") rate = 0.20;
+  if (service === "move") rate = 0.22;
+
+  const base = sqft * rate;
   const mid = base * 1.10;
   const high = base * 1.20;
 
-  // STORE
+  // Store globally
   window.pricing = {
     low: base,
     mid: mid,
     high: high
   };
 
-  // UI UPDATE
-  lowPriceEl.textContent = format(base);
-  midPriceEl.textContent = format(mid);
-  highPriceEl.textContent = format(high);
+  // Update UI
+  lowPrice.textContent = format(base);
+  midPrice.textContent = format(mid);
+  highPrice.textContent = format(high);
 
   updateTotal();
 }
 
-// TOTAL CALCULATION
+// =====================
+// TOTAL UPDATE
+// =====================
+
 function updateTotal() {
   if (!window.pricing) return;
 
-  const extrasTotal = selectedExtras.reduce((a, b) => a + b, 0);
+  const extrasTotal = selectedExtras.reduce((sum, val) => sum + val, 0);
 
+  // Default = recommended price
   const total = window.pricing.mid + extrasTotal;
 
-  totalPriceEl.textContent = format(total);
+  totalPrice.textContent = format(total);
 }
 
+// =====================
 // FORMAT
+// =====================
+
 function format(num) {
   return "$" + num.toFixed(2);
 }
