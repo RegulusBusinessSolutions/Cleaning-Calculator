@@ -1,0 +1,94 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #0B0B0F;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Container */
+body > * {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+/* Title */
+h2 {
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Inputs */
+input, select {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: 1px solid #222;
+  background: #111;
+  color: white;
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+
+input::placeholder {
+  color: #777;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #00FF9C;
+  box-shadow: 0 0 10px rgba(0,255,156,0.5);
+}
+
+/* Results */
+h3 {
+  margin-top: 12px;
+  font-weight: 500;
+}
+
+/* Highlight numbers */
+span {
+  color: #00FF9C;
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(0,255,156,0.6);
+}
+
+/* Card effect */
+body > * {
+  background: rgba(255,255,255,0.03);
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 40px rgba(0,255,156,0.08);
+  transition: 0.3s ease;
+}
+
+body > *:hover {
+  box-shadow: 0 0 60px rgba(0,255,156,0.15);
+}
+
+/* Subtle glow animation */
+@keyframes pulseGlow {
+  from {
+    box-shadow: 0 0 20px rgba(0,255,156,0.05);
+  }
+  to {
+    box-shadow: 0 0 50px rgba(0,255,156,0.15);
+  }
+}
+
+body > * {
+  animation: pulseGlow 4s infinite alternate;
+}
