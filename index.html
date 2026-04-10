@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cleaning Calculator</title>
 
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
   <script defer src="app.js"></script>
 </head>
 
@@ -13,44 +13,85 @@
 
 <div class="app">
 
-  <!-- STEP 1 -->
+  <!-- ================= STEP 1 ================= -->
   <div id="step1" class="step active">
     <div class="card">
+
       <h1>Estimate Cleaning Cost</h1>
-      <input id="sqft" type="number" placeholder="Enter square feet" />
-      <button id="toStep2" class="primary-btn">Continue</button>
+      <p>Enter your property size</p>
+
+      <input id="sqft" type="number" placeholder="Enter square feet">
+
+      <button id="toStep2" class="primary">Continue</button>
+
     </div>
   </div>
 
-  <!-- STEP 2 -->
+
+  <!-- ================= STEP 2 ================= -->
   <div id="step2" class="step">
     <div class="card">
+
       <h1>Select Service</h1>
 
       <div class="service-grid">
-        <div class="service-btn" data-service="standard">Standard Cleaning</div>
-        <div class="service-btn" data-service="deep">Deep Cleaning</div>
-        <div class="service-btn" data-service="move">Move In / Out</div>
+
+        <div class="service-btn" data-service="standard">
+          Standard Cleaning
+        </div>
+
+        <div class="service-btn" data-service="deep">
+          Deep Cleaning
+        </div>
+
+        <div class="service-btn" data-service="move">
+          Move In / Out
+        </div>
+
       </div>
 
       <div class="nav">
         <button id="back1">Back</button>
-        <button id="toStep3" class="primary-btn">Continue</button>
+        <button id="toStep3" class="primary">Continue</button>
       </div>
+
     </div>
   </div>
 
-  <!-- STEP 3 -->
+
+  <!-- ================= STEP 3 ================= -->
   <div id="step3" class="step">
     <div class="card">
+
       <h1>Customize & Pricing</h1>
 
-      <div class="pricing">
-        <div>Low: <span id="price-low">$0</span></div>
-        <div>Recommended: <span id="price-mid">$0</span></div>
-        <div>Premium: <span id="price-high">$0</span></div>
+      <!-- PRICING -->
+      <div class="pricing-box">
+
+        <div>
+          <span>Low</span>
+          <h2 id="price-low">$0.00</h2>
+        </div>
+
+        <div>
+          <span>Recommended</span>
+          <h2 id="price-mid">$0.00</h2>
+        </div>
+
+        <div>
+          <span>Premium</span>
+          <h2 id="price-high">$0.00</h2>
+        </div>
+
       </div>
 
+      <!-- TOTAL -->
+      <div class="total-box">
+        <span>Total</span>
+        <h2 id="total-price">$0.00</h2>
+      </div>
+
+      <!-- EXTRAS -->
       <h3>Add Extras</h3>
 
       <div class="extras-grid">
@@ -59,14 +100,17 @@
         <div class="extra" data-price="40">Extra Rooms ($40)</div>
         <div class="extra" data-price="100">Windows ($100)</div>
         <div class="extra" data-price="10">Blinds ($10)</div>
+
         <div class="extra" data-price="40">Baseboards ($40)</div>
         <div class="extra" data-price="70">Inside Cabinets ($70)</div>
         <div class="extra" data-price="40">Inside Fridge ($40)</div>
         <div class="extra" data-price="40">Inside Oven ($40)</div>
+
         <div class="extra" data-price="40">Dishes ($40)</div>
         <div class="extra" data-price="50">Sweep Garage ($50)</div>
         <div class="extra" data-price="10">Pets ($10)</div>
         <div class="extra" data-price="40">Interior Walls ($40)</div>
+
         <div class="extra" data-price="10">Interior Doors ($10)</div>
         <div class="extra" data-price="50">Eco Products ($50)</div>
         <div class="extra" data-price="10">A/C Vents ($10)</div>
@@ -74,8 +118,7 @@
 
       </div>
 
-      <h2>Total: <span id="total-price">$0</span></h2>
-
+      <!-- NAV -->
       <div class="nav">
         <button id="back2">Back</button>
         <button id="reset">Start Over</button>
