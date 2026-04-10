@@ -1,153 +1,114 @@
-let currentStep = 1;
 let selectedService = null;
+let sqft = 0;
 
-document.addEventListener("DOMContentLoaded", () => {
+/* STEP NAVIGATION */
+const step1 = document.getElementById("step1");
+const step2 = document.getElementById("step2");
+const step3 = document.getElementById("step3");
 
-  const step1Btn = document.getElementById("step1Btn");
-  const step2Btn = document.getElementById("step2Btn");
-  const restartBtn = document.getElementById("restartBtn");
+function showStep(step) {
+  step1.classList.remove("active");
+  step2.classList.remove("active");
+  step3.classList.remove("active");
 
-  /* STEP 1 → STEP 2 */
-  step1Btn.addEventListener("click", () => {
-    const sqft = document.getElementById("sqft").value;
+  step.classList.add("active");
+}
 
-    if (!sqft || sqft <= 0) {
-      alert("Enter valid square feet");
-      return;
-    }
+/* STEP 1 → STEP 2 */
+document.getElementById("toStep2").addEventListener("click", () => {
+  sqft = parseFloat(document.getElementById("sqft").value);
 
-    goToStep(2);
-  });
+  if (!sqft || sqft <= 0) return;
 
-  /* SERVICE SELECTION */
-  document.querySelectorAll(".service-card").forEach(card => {
-    card.addEventListener("click", () => {
-      document.querySelectorAll(".service-card").forEach(c => c.classList.remove("active"));
-      card.classList.add("active");
-      selectedService = card.dataset.type;
-    });
-  });
-
-  /* STEP 2 → STEP 3 */
-  step2Btn.addEventListener("click", () => {
-    if (!selectedService) {
-      alert("Select a service");
-      return;
-    }
-
-    goToStep(3);
-  });
-
-  /* RESTART */
-  restartBtn.addEventListener("click", () => {
-    selectedService = null;
-
-    document.querySelectorAll(".service-card").forEach(c => c.classList.remove("active"));
-
-    goToStep(1);
-  });
-
-  updateProgress();
+  showStep(step2);
 });
 
-/* STEP CONTROL */
-function goToStep(step) {
-  document.querySelectorAll(".step").forEach(s => {
-    s.classList.remove("active");
+/* BACK BUTTON */
+document.getElementById("back1").addEventListener("click", () => {
+  showStep(step1);
+});
+
+document.getElementById("back2").addEventListener("click", () => {
+  showStep(step2);
+});
+
+/* SERVICE SELECTION */
+const serviceButtons = document.querySelectorAll(".service-btn");
+
+serviceButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    serviceButtons.forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+
+    selectedService = btn.dataset.service;
   });
+});
 
-  const next = document.getElementById("step" + step);
-  if (next) next.classList.add("active");
+/* STEP 2 → STEP 3 */
+document.getElementById("toStep3").addEventListener("click", () => {
+  if (!selectedService) return;
 
-  currentStep = step;
-  updateProgress();
+  calculatePrices();
+  showStep(step3);
+});
 
-  if (step === 3) {
-    calculate();
-  }
+/* PRICE CALCULATION */
+function calculatePrices() {
+  let rate = 0;
+
+  if (selectedService === "standard") rate = 0.10;
+  if (selectedService === "deep") rate = 0.20;
+  if (selectedService === "move") rate = 0.22;
+
+  let base = sqft * rate;
+  let mid = base * 1.10;
+  let high = base * 1.20;
+
+  let extras = getExtrasTotal();
+
+  document.getElementById("lowPrice").innerText = format(base + extras);
+  document.getElementById("midPrice").innerText = format(mid + extras);
+  document.getElementById("highPrice").innerText = format(high + extras);
 }
 
-/* PROGRESS BAR */
-function updateProgress() {
-  const bar = document.getElementById("progressFill");
-  if (!bar) return;
+/* EXTRAS */
+const extrasCheckboxes = document.querySelectorAll(".extras-grid input");
 
-  if (currentStep === 1) bar.style.width = "33%";
-  if (currentStep === 2) bar.style.width = "66%";
-  if (currentStep === 3) bar.style.width = "100%";
+extrasCheckboxes.forEach(box => {
+  box.addEventListener("change", calculatePrices);
+});
 
-  document.querySelectorAll(".progress-steps span").forEach((el, i) => {
-    el.classList.toggle("active", i < currentStep);
-  });
-}
+function getExtrasTotal() {
+  let total = 0;
 
-/* PRICING TABLE */
-function getPrice(sqft, type) {
-
-  const pricing = {
-
-    standard: [
-      [999, 160, "1 hr"],
-      [1499, 175, "1 hr 15 min"],
-      [1999, 190, "1 hr 30 min"],
-      [2499, 210, "1 hr 45 min"],
-      [2999, 230, "2 hr"],
-      [3499, 250, "2 hr 15 min"],
-      [3999, 270, "2 hr 30 min"],
-      [4499, 290, "2 hr 45 min"],
-      [4999, 320, "3 hr"]
-    ],
-
-    deep: [
-      [999, 310, "2 hr"],
-      [1499, 340, "2 hr 15 min"],
-      [1999, 370, "2 hr 30 min"],
-      [2499, 400, "2 hr 45 min"],
-      [2999, 430, "3 hr"],
-      [3499, 470, "3 hr 15 min"],
-      [3999, 520, "3 hr 30 min"],
-      [4499, 580, "3 hr 45 min"],
-      [4999, 680, "4 hr"]
-    ],
-
-    move: [
-      [999, 330, "3 hr"],
-      [1499, 360, "3 hr 15 min"],
-      [1999, 390, "3 hr 30 min"],
-      [2499, 420, "3 hr 45 min"],
-      [2999, 450, "4 hr"],
-      [3499, 490, "4 hr 15 min"],
-      [3999, 540, "4 hr 30 min"],
-      [4499, 600, "4 hr 45 min"],
-      [4999, 680, "5 hr"]
-    ]
-
-  };
-
-  const table = pricing[type];
-
-  for (let i = 0; i < table.length; i++) {
-    if (sqft <= table[i][0]) {
-      return table[i];
+  extrasCheckboxes.forEach(box => {
+    if (box.checked) {
+      total += parseFloat(box.dataset.price);
     }
-  }
+  });
 
-  return [5000, "Call for quote", "Custom"];
+  return total;
 }
 
-/* CALCULATION */
-function calculate() {
-  const sqft = parseFloat(document.getElementById("sqft").value);
-
-  if (!sqft || !selectedService) return;
-
-  const result = getPrice(sqft, selectedService);
-
-  const price = result[1];
-  const time = result[2];
-
-  document.getElementById("price").innerText =
-    typeof price === "number" ? "$" + price.toFixed(2) : price;
-
-  document.getElementById("time").innerText = time;
+/* FORMAT */
+function format(num) {
+  return "$" + num.toFixed(2);
 }
+
+/* RESET */
+document.getElementById("reset").addEventListener("click", () => {
+
+  document.getElementById("sqft").value = "";
+  selectedService = null;
+
+  serviceButtons.forEach(b => b.classList.remove("selected"));
+
+  extrasCheckboxes.forEach(box => box.checked = false);
+
+  document.getElementById("lowPrice").innerText = "$0";
+  document.getElementById("midPrice").innerText = "$0";
+  document.getElementById("highPrice").innerText = "$0";
+
+  showStep(step1);
+});
