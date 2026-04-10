@@ -23,7 +23,7 @@ body {
   padding: 20px;
 }
 
-/* STEPS */
+/* STEP */
 .step {
   display: none;
 }
@@ -39,18 +39,19 @@ body {
   border: 1px solid rgba(255,255,255,0.08);
   backdrop-filter: blur(25px);
   box-shadow:
-    0 20px 60px rgba(0,0,0,0.6),
-    0 0 80px rgba(0,255,156,0.08);
+    0 30px 80px rgba(0,0,0,0.6),
+    0 0 60px rgba(0,255,156,0.08);
 }
 
 /* TEXT */
 h1 {
-  font-size: 34px;
+  font-size: 32px;
   margin-bottom: 10px;
 }
+
 p {
   opacity: 0.6;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 /* INPUT */
@@ -66,39 +67,41 @@ input {
 }
 
 input:focus {
-  border-color: #00ff9c;
   outline: none;
+  border-color: #00ff9c;
   box-shadow: 0 0 15px rgba(0,255,156,0.25);
 }
 
-/* ================= BUTTONS ================= */
+/* ================= BUTTON ================= */
 
-.primary-btn {
+.primary {
   width: 100%;
   padding: 16px;
   border-radius: 14px;
   border: none;
   font-weight: 600;
   cursor: pointer;
+
   background: linear-gradient(90deg, #00ff9c, #ff00e5);
   color: #000;
+
   transition: 0.25s;
 }
 
-.primary-btn:hover {
+.primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 30px rgba(255,0,200,0.3);
 }
 
 .nav {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   margin-top: 20px;
 }
 
 .nav button {
   flex: 1;
-  padding: 14px;
+  padding: 12px;
   border-radius: 12px;
   background: rgba(255,255,255,0.06);
   border: none;
@@ -115,13 +118,13 @@ input:focus {
 .service-grid {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-bottom: 25px;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
 .service-btn {
-  padding: 20px;
-  border-radius: 16px;
+  padding: 18px;
+  border-radius: 14px;
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.08);
   cursor: pointer;
@@ -136,81 +139,74 @@ input:focus {
 .service-btn.selected {
   background: linear-gradient(120deg, rgba(0,255,156,0.2), rgba(255,0,229,0.2));
   border-color: #00ff9c;
-  box-shadow: 0 0 25px rgba(0,255,156,0.25);
+  box-shadow: 0 0 20px rgba(0,255,156,0.25);
 }
 
 /* ================= PRICING ================= */
 
-.pricing-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  margin: 30px 0;
+.pricing-box {
+  margin: 25px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.price-card {
-  padding: 18px;
-  border-radius: 14px;
+.pricing-box div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 15px;
+  border-radius: 12px;
+
   background: rgba(255,255,255,0.05);
-  text-align: center;
   border: 1px solid rgba(255,255,255,0.08);
 }
 
-.price-card span {
-  font-size: 13px;
+.pricing-box span {
   opacity: 0.6;
 }
 
-.price-card h2 {
-  font-size: 24px;
-}
-
-.price-card.featured {
-  background: linear-gradient(120deg, rgba(0,255,156,0.25), rgba(255,0,229,0.25));
-  border-color: #00ff9c;
-  transform: scale(1.05);
+.pricing-box h2 {
+  font-size: 22px;
+  font-weight: 700;
 }
 
 /* ================= TOTAL ================= */
 
 .total-box {
-  text-align: center;
-  margin: 20px 0 30px;
-  padding: 20px;
-  border-radius: 16px;
-  background: linear-gradient(120deg, rgba(0,255,156,0.15), rgba(255,0,229,0.15));
-  border: 1px solid rgba(255,255,255,0.1);
-}
+  margin: 20px 0;
+  padding: 18px;
+  border-radius: 14px;
 
-.total-box span {
-  opacity: 0.7;
+  background: linear-gradient(120deg, rgba(0,255,156,0.2), rgba(255,0,229,0.2));
+  border: 1px solid rgba(255,255,255,0.1);
+
+  text-align: center;
 }
 
 .total-box h2 {
-  font-size: 32px;
-  margin-top: 5px;
+  font-size: 28px;
 }
 
 /* ================= EXTRAS ================= */
 
-.section-title {
-  margin-bottom: 10px;
-}
-
 .extras-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 10px;
 }
 
 .extra {
   padding: 14px;
   border-radius: 12px;
+
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.08);
+
   cursor: pointer;
   transition: 0.2s;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .extra:hover {
@@ -221,26 +217,23 @@ input:focus {
 .extra.active {
   background: linear-gradient(120deg, rgba(0,255,156,0.2), rgba(255,0,229,0.2));
   border-color: #ff00e5;
-  box-shadow: 0 0 20px rgba(255,0,200,0.25);
+  box-shadow: 0 0 15px rgba(255,0,200,0.25);
 }
 
 /* ================= MOBILE ================= */
 
-@media (max-width: 700px) {
+@media (max-width: 600px) {
 
-  .pricing-cards {
-    grid-template-columns: 1fr;
+  .card {
+    padding: 25px;
   }
 
   .extras-grid {
     grid-template-columns: 1fr;
   }
 
-  .card {
-    padding: 25px;
+  h1 {
+    font-size: 24px;
   }
 
-  h1 {
-    font-size: 26px;
-  }
 }
