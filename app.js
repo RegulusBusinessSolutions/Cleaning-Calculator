@@ -1,114 +1,123 @@
-let selectedService = null;
+// STATE
 let sqft = 0;
+let service = null;
+let selectedExtras = [];
 
-/* STEP NAVIGATION */
+// ELEMENTS
 const step1 = document.getElementById("step1");
 const step2 = document.getElementById("step2");
 const step3 = document.getElementById("step3");
 
-function showStep(step) {
-  step1.classList.remove("active");
-  step2.classList.remove("active");
-  step3.classList.remove("active");
+const sqftInput = document.getElementById("sqft");
 
-  step.classList.add("active");
-}
-
-/* STEP 1 → STEP 2 */
-document.getElementById("toStep2").addEventListener("click", () => {
-  sqft = parseFloat(document.getElementById("sqft").value);
-
-  if (!sqft || sqft <= 0) return;
-
-  showStep(step2);
-});
-
-/* BACK BUTTON */
-document.getElementById("back1").addEventListener("click", () => {
-  showStep(step1);
-});
-
-document.getElementById("back2").addEventListener("click", () => {
-  showStep(step2);
-});
-
-/* SERVICE SELECTION */
 const serviceButtons = document.querySelectorAll(".service-btn");
+const extraButtons = document.querySelectorAll(".extra");
 
-serviceButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
+const lowPriceEl = document.getElementById("lowPrice");
+const midPriceEl = document.getElementById("midPrice");
+const highPriceEl = document.getElementById("highPrice");
+const totalPriceEl = document.getElementById("totalPrice");
 
-    serviceButtons.forEach(b => b.classList.remove("selected"));
-    btn.classList.add("selected");
+// NAVIGATION
+document.getElementById("toStep2").onclick = () => {
+  sqft = parseInt(sqftInput.value);
 
-    selectedService = btn.dataset.service;
-  });
-});
+  if (!sqft || sqft <= 0) {
+    alert("Enter valid square footage");
+    return;
+  }
 
-/* STEP 2 → STEP 3 */
-document.getElementById("toStep3").addEventListener("click", () => {
-  if (!selectedService) return;
+  goTo(step1, step2);
+};
+
+document.getElementById("toStep3").onclick = () => {
+  if (!service) {
+    alert("Select a service");
+    return;
+  }
 
   calculatePrices();
-  showStep(step3);
-});
+  goTo(step2, step3);
+};
 
-/* PRICE CALCULATION */
-function calculatePrices() {
-  let rate = 0;
+document.getElementById("back1").onclick = () => goTo(step2, step1);
+document.getElementById("back2").onclick = () => goTo(step3, step2);
 
-  if (selectedService === "standard") rate = 0.10;
-  if (selectedService === "deep") rate = 0.20;
-  if (selectedService === "move") rate = 0.22;
+document.getElementById("reset").onclick = () => {
+  location.reload();
+};
 
-  let base = sqft * rate;
-  let mid = base * 1.10;
-  let high = base * 1.20;
-
-  let extras = getExtrasTotal();
-
-  document.getElementById("lowPrice").innerText = format(base + extras);
-  document.getElementById("midPrice").innerText = format(mid + extras);
-  document.getElementById("highPrice").innerText = format(high + extras);
+// STEP SWITCH
+function goTo(from, to) {
+  from.classList.remove("active");
+  to.classList.add("active");
 }
 
-/* EXTRAS */
-const extrasCheckboxes = document.querySelectorAll(".extras-grid input");
-
-extrasCheckboxes.forEach(box => {
-  box.addEventListener("change", calculatePrices);
-});
-
-function getExtrasTotal() {
-  let total = 0;
-
-  extrasCheckboxes.forEach(box => {
-    if (box.checked) {
-      total += parseFloat(box.dataset.price);
-    }
+// SERVICE SELECTION
+serviceButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    serviceButtons.forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+    service = btn.dataset.type;
   });
+});
 
-  return total;
+// EXTRAS TOGGLE
+extraButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const price = parseFloat(btn.dataset.price);
+
+    btn.classList.toggle("active");
+
+    if (selectedExtras.includes(price)) {
+      selectedExtras = selectedExtras.filter(p => p !== price);
+    } else {
+      selectedExtras.push(price);
+    }
+
+    updateTotal();
+  });
+});
+
+// PRICING LOGIC
+function calculatePrices() {
+  let baseRate = 0;
+
+  if (service === "standard") baseRate = 0.10;
+  if (service === "deep") baseRate = 0.20;
+  if (service === "move") baseRate = 0.22;
+
+  const base = sqft * baseRate;
+  const mid = base * 1.10;
+  const high = base * 1.20;
+
+  // STORE
+  window.pricing = {
+    low: base,
+    mid: mid,
+    high: high
+  };
+
+  // UI UPDATE
+  lowPriceEl.textContent = format(base);
+  midPriceEl.textContent = format(mid);
+  highPriceEl.textContent = format(high);
+
+  updateTotal();
 }
 
-/* FORMAT */
+// TOTAL CALCULATION
+function updateTotal() {
+  if (!window.pricing) return;
+
+  const extrasTotal = selectedExtras.reduce((a, b) => a + b, 0);
+
+  const total = window.pricing.mid + extrasTotal;
+
+  totalPriceEl.textContent = format(total);
+}
+
+// FORMAT
 function format(num) {
   return "$" + num.toFixed(2);
 }
-
-/* RESET */
-document.getElementById("reset").addEventListener("click", () => {
-
-  document.getElementById("sqft").value = "";
-  selectedService = null;
-
-  serviceButtons.forEach(b => b.classList.remove("selected"));
-
-  extrasCheckboxes.forEach(box => box.checked = false);
-
-  document.getElementById("lowPrice").innerText = "$0";
-  document.getElementById("midPrice").innerText = "$0";
-  document.getElementById("highPrice").innerText = "$0";
-
-  showStep(step1);
-});
