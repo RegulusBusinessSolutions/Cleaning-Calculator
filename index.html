@@ -8,81 +8,119 @@
 </head>
 <body>
 
-<div class="wrapper">
+<div class="app">
 
-  <!-- HEADER -->
-  <div class="header">
+  <!-- TOP BAR -->
+  <div class="topbar">
     <div class="logo">RBS</div>
-    <h1>Cleaning Price Calculator</h1>
-    <p class="subtitle">Instant pricing based on industry standards</p>
+
+    <div class="progress">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-steps">
+        <span class="active">1</span>
+        <span>2</span>
+        <span>3</span>
+      </div>
+    </div>
   </div>
 
   <!-- MAIN CARD -->
   <div class="card">
 
-    <!-- INPUT SECTION -->
-    <div class="inputs">
+    <!-- STEP 1 (PREMIUM INTRO) -->
+    <div class="step active" id="step1">
 
-      <input 
-        type="number" 
-        id="sqft" 
-        placeholder="Enter square feet (e.g. 1500)"
-      >
+      <div class="step-content">
 
-      <select id="type">
-        <option value="regular">Regular Cleaning</option>
-        <option value="deep">Deep Cleaning</option>
-        <option value="rough">Post Construction (Rough)</option>
-        <option value="final">Final Clean</option>
-        <option value="touch">Touch Up</option>
-        <option value="turnover">Apartment Turnover</option>
-      </select>
+        <h1 class="title">
+          Estimate Your Cleaning Cost
+        </h1>
 
-    </div>
+        <p class="subtitle">
+          Accurate pricing based on square footage and service type
+        </p>
 
-    <!-- DIVIDER -->
-    <div class="divider"></div>
+        <div class="input-wrapper">
+          <input 
+            type="number" 
+            id="sqft" 
+            placeholder=" "
+          >
+          <label>Enter Square Feet</label>
+          <div class="input-glow"></div>
+        </div>
 
-    <!-- RESULTS -->
-    <div class="results">
+        <button class="primary-btn" onclick="nextStep(2)">
+          Continue
+        </button>
 
-      <div class="box low">
-        <span>STARTING PRICE</span>
-        <h3 id="low">$0</h3>
-      </div>
-
-      <div class="box mid highlight">
-        <span>STANDARD</span>
-        <h3 id="mid">$0</h3>
-        <p class="tag">Most common choice</p>
-      </div>
-
-      <div class="box high">
-        <span>HEAVY CONDITION</span>
-        <h3 id="high">$0</h3>
       </div>
 
     </div>
 
-    <!-- CTA -->
-    <div class="cta">
-      <p>Want this system for your cleaning business?</p>
-      <button onclick="handleCTA()">Get This System</button>
+    <!-- STEP 2 -->
+    <div class="step" id="step2">
+
+      <div class="step-content">
+
+        <h2 class="title small">Select Cleaning Type</h2>
+
+        <div class="select-wrapper">
+          <select id="type">
+            <option value="regular">Regular Cleaning</option>
+            <option value="deep">Deep Cleaning</option>
+            <option value="rough">Post Construction (Rough)</option>
+            <option value="final">Final Clean</option>
+            <option value="touch">Touch Up</option>
+            <option value="turnover">Apartment Turnover</option>
+          </select>
+          <div class="select-glow"></div>
+        </div>
+
+        <button class="primary-btn" onclick="nextStep(3)">
+          Calculate
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step" id="step3">
+
+      <div class="step-content">
+
+        <h2 class="title small">Your Estimate</h2>
+
+        <div class="results">
+
+          <div class="box low">
+            <span>STARTING PRICE</span>
+            <h3 id="low">$0</h3>
+          </div>
+
+          <div class="box mid highlight">
+            <span>STANDARD</span>
+            <h3 id="mid">$0</h3>
+            <p class="tag">Most common choice</p>
+          </div>
+
+          <div class="box high">
+            <span>HEAVY CONDITION</span>
+            <h3 id="high">$0</h3>
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
 
   </div>
 
 </div>
 
-<!-- JS LOGIC -->
+<!-- JS -->
 <script src="app.js"></script>
-
-<!-- CTA HANDLER -->
-<script>
-function handleCTA() {
-  alert("Next step: connect this calculator to your CRM or lead system.");
-}
-</script>
-
-</body>
-</html>
